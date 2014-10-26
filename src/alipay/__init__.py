@@ -97,6 +97,13 @@ class Alipay(object):
         url = self._build_url('trade_create_by_buyer', **kw)
         return url
 
+    def send_goods_confirm_by_platform(self, **kw):
+        names = ['trade_no', 'logistics_name', 'transport_type']
+        self._check_params(kw, names)
+        
+        url = self._build_url('send_goods_confirm_by_platform', **kw)
+        return url
+
     def get_sign_method(self, **kw):
         signkey, signvalue, signdescription = self.sign_tuple
         signmethod = getattr(self, '_generate_%s_sign' %
