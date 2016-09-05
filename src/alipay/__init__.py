@@ -61,6 +61,11 @@ class Alipay(object):
     def _check_params(self, params, names):
         if not all(k in params for k in names):
             raise MissingParameter('missing parameters')
+    
+     def _check_either_params(self, params, names):
+         """检查一组不能同时为空的参数"""
+        if not any(k in params for k in names):
+            raise MissingParameter('missing parameters')
 
     def _build_url(self, service, paramnames=None, **kw):
         '''
@@ -177,6 +182,8 @@ class Alipay(object):
         ''''确认发货'''
         names = ('trade_no', 'logistics_name')
         self._check_params(kw, names)
+        names = ('transport_type', 'create_transport_type')
+        self._check_either_params(kw, names)
         url = self._build_url('send_goods_confirm_by_platform', **kw)
         return url
 
